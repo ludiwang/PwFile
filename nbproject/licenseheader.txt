@@ -1,0 +1,10 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}All Rights reserved
+${licensePrefix}Copyright(c) 2016 L.Wang Consultancy  All Rights Reserved.
+${licensePrefix}This software is the proprietary information of L.Wang
+Consultancy.
+<#if licenseLast??>
+${licenseLast}
+</#if>
