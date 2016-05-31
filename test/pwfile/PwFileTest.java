@@ -41,14 +41,14 @@ public class PwFileTest {
     /**
      * Test of main method, of class PwFile.
      */
-    @Test
-    public void testMain() throws Exception {
-        System.out.println("main");
-        String[] args = "-conf /tmp/test1 -create_keystore".split(" ");
-        PwFile.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testMain() throws Exception {
+//        System.out.println("main");
+//        String[] args = "-conf /tmp/test1 -create_keystore".split(" ");
+//        PwFile.main(args);
+//        // TODO review the generated test code and remove the default call to fail.
+//        //fail("The test case is a prototype.");
+//    }
     
     /**
      * Test of getConfig method, of class PwFile.
@@ -114,17 +114,17 @@ public class PwFileTest {
     /**
      * Test of addNewKey method, of class PwFile.
      */
-//    @Test
-//    public void TestAddNewKey() {
-//        System.out.println("loadStore");
-//        String confFilePath = "/tmp/test1";  
-//        String keyName="ludi1";
-//        String keyValue="wang1";
-//        String expResult = "ludi";
-//         
-//        PwFile.addNewKey(keyName, keyValue,confFilePath);
-//        //PwFile.updateKey(keyName, keyValue,confFilePath);
-//    }
+    @Test
+    public void TestAddNewKey() {
+        System.out.println("loadStore");
+        String confFilePath = "/tmp/test1";  
+        String keyName="ludi1";
+        String keyValue="wang1";
+        String expResult = "ludi";
+         
+        PwFile.addNewKey(keyName, keyValue,confFilePath);
+        //PwFile.updateKey(keyName, keyValue,confFilePath);
+    }
     
      /**
      * Test of updateKey method, of class PwFile.
