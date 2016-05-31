@@ -118,8 +118,8 @@ public class PwFileTest {
     public void TestAddNewKey() {
         System.out.println("loadStore");
         String confFilePath = "/tmp/test1";  
-        String keyName="ludi1";
-        String keyValue="wang1";
+        String keyName="ludi2";
+        String keyValue="wang2";
         String expResult = "ludi";
          
         PwFile.addNewKey(keyName, keyValue,confFilePath);
