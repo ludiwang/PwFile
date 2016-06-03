@@ -34,11 +34,13 @@ public class Args {
     public Args(String[] args) {
         this.args = args;
         //options.addOption("conf", true, "configuration file");
-         optBuilder.argName("/tmp/testExport").longOpt("confFile").hasArg(true).required(true).desc("Export all key pairs to a file.");
-        Option confFile = optBuilder.build();
-        options.addOption(confFile);
+         optBuilder.argName("/tmp/testExport").longOpt("conffile").hasArg(true).required(true).desc("Export all key pairs to a file.");
+        Option conffile = optBuilder.build();
+        options.addOption(conffile);
          
-
+        optBuilder.longOpt("create_conffile").hasArg(true).desc("create conffile");
+        Option create_conffile = optBuilder.build();
+        
         optBuilder.longOpt("create_keystore").hasArg(false).desc("create a keystore as named in the config file.");
         Option create_keystore = optBuilder.build();
 
@@ -61,6 +63,7 @@ public class Args {
         Option get_pw = optBuilder.build();
 
         optGroup.addOption(create_keystore);
+        optGroup.addOption(create_conffile);
         optGroup.addOption(add_key);
         optGroup.addOption(update_key);
         optGroup.addOption(delete_key);
@@ -77,10 +80,16 @@ public class Args {
         CommandLine cmd = null;
         try {
             cmd = parser.parse(options, args);
-            if (cmd.hasOption("confFile")) {
-                this.conf = cmd.getOptionValue("confFile");
+            if (cmd.hasOption("conffile")) {
+                this.conf = cmd.getOptionValue("conffile");
             }
-
+            
+            if (cmd.hasOption("create_conffile")) {
+                //System.out.println("create keystore");
+                this.argName = "create_conffile";
+                this.argValue = cmd.getOptionValue("create_conffile");
+            }
+            
             if (cmd.hasOption("create_keystore")) {
                 //System.out.println("create keystore");
                 this.argName = "create_keystore";
@@ -132,10 +141,50 @@ public class Args {
     private void help() {
 
         // This prints out some help
-        HelpFormatter formater = new HelpFormatter();
+        HelpFormatter formatter = new HelpFormatter();
          
-        formater.printHelp("Main", options);
+        //formatter.printHelp("Main", options);
+        String padding1 ="     ";
+        String padding2 ="       ";
+        String padding3 ="         ";
+        System.out.println("Usage: ");
+        //System.out.println(padding + "Required with all commands:");
+        System.out.println(padding1 + "--confFile </tmp/conffile.conf> (always required)"); 
+        
+        System.err.println("");
+        System.out.println(padding2 + "--create_conffile </tmp/keystoreconffile,mykeystorepassword>");
+        System.out.println(padding3 + "create a configuration file.");
+        
+        System.err.println("");
+        System.out.println(padding2 + "--create_keystore");
+        System.out.println(padding3 + "create a keystore as defined in the conf file.");
+        
+        System.err.println("");
+        System.out.println(padding2 + "--add_key <name=value>");
+        System.out.println(padding3 + "Add a new keypair in the keystore.");
 
+        System.err.println("");
+        System.out.println(padding2 + "--update_key <name=value>");
+        System.out.println(padding3 + "Update the password of a key in the keystore.");
+        
+        System.err.println("");
+        System.out.println(padding2 + "--delete_key <name>");
+        System.out.println(padding3 + "Delete a key in the keystore.");
+        
+        System.err.println("");
+        System.out.println(padding2 + "--export_keys </tmp/export_keys.lst>");
+        System.out.println(padding3 + "Export all keys to a file.");
+        
+        System.err.println("");
+        System.out.println(padding2 + "--import_keys </tmp/keys.lst>");
+        System.out.println(padding3 + "Import key pairs into the keystore.");
+        
+        System.err.println("");
+        System.out.println(padding2 + "--get_pw <name>");
+        System.out.println(padding3 + "Get the password of a key.");
+        
+        
+        
         System.exit(0);
 
     }
