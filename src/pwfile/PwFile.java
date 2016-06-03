@@ -4,7 +4,6 @@
  * This software is the proprietary information of L.Wang
 Consultancy.
  */
-
 package pwfile;
 
 /**
@@ -33,6 +32,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -54,6 +54,14 @@ public class PwFile {
         }
 
         switch (vArg.argName) {
+            case "create_conffile": {
+
+                String keystorePath = vArg.argValue.split(",")[0];
+                String keystorePass = vArg.argValue.split(",")[1];
+                createConfFile(vArg.conf, keystorePath, keystorePass);
+
+            }
+            break;
             case "create_keystore": {
                 try {
                     createKeyStore(vArg.conf);
@@ -86,7 +94,7 @@ public class PwFile {
             break;
             case "export_keys": {
 
-                exportAllKeys( vArg.conf, vArg.argValue);
+                exportAllKeys(vArg.conf, vArg.argValue);
             }
             break;
             case "get_pw": {
@@ -97,6 +105,28 @@ public class PwFile {
             break;
         }
 
+    }
+
+    public static boolean createConfFile(String confFilePath, String keyStorePath, String keyStorePass) {
+
+        Path path = Paths.get(confFilePath);
+        if (Files.exists(path)) {
+            System.err.println("File " + confFilePath + " already exist.");
+            return false;
+        }
+
+        File confFile = new File(confFilePath);
+
+        try {
+            PrintWriter writer = new PrintWriter(confFilePath);
+            writer.println("keyStorePath=" + keyStorePath);
+            writer.println("keyStorePass=" + keyStorePass);
+            writer.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        String storePw = getStorePW(confFilePath);
+        return true;
     }
 
     public static String[] getConfig(String filePath) throws FileNotFoundException {
@@ -583,4 +613,5 @@ public class PwFile {
             ex.printStackTrace();
         }
     }
+
 }
