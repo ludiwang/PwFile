@@ -114,17 +114,17 @@ public class PwFileTest {
     /**
      * Test of addNewKey method, of class PwFile.
      */
-    @Test
-    public void TestAddNewKey() {
-        System.out.println("loadStore");
-        String confFilePath = "/tmp/test1";  
-        String keyName="ludi2";
-        String keyValue="wang2";
-        String expResult = "ludi";
-         
-        PwFile.addNewKey(keyName, keyValue,confFilePath);
-        //PwFile.updateKey(keyName, keyValue,confFilePath);
-    }
+//    @Test
+//    public void TestAddNewKey() {
+//        System.out.println("loadStore");
+//        String confFilePath = "/tmp/test1";  
+//        String keyName="ludi2";
+//        String keyValue="wang2";
+//        String expResult = "ludi";
+//         
+//        PwFile.addNewKey(keyName, keyValue,confFilePath);
+//        //PwFile.updateKey(keyName, keyValue,confFilePath);
+//    }
     
      /**
      * Test of updateKey method, of class PwFile.
@@ -224,4 +224,15 @@ public class PwFileTest {
 //       }
 //
 //    }  
+    
+       @Test
+    public void testCreateConfFile() {
+        System.out.println("create conffile");
+        String confFilePath = "/tmp/test2"; 
+        String keyStorePath = "/tmp/store2";
+        String keyStorePass = "wang";
+        boolean expResult = true;
+        boolean result = PwFile.createConfFile(confFilePath, keyStorePath, keyStorePass);
+        assertEquals(expResult, result);
+    }
 }
