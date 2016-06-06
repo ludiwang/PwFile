@@ -3,7 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/wangc/Google%20Drive/java/PwFile/.git/config</file>
+            <file>file:/home/oracle/NetBeansProjects/PwFile/src/pwfile/PwFile.java</file>
+            <file>file:/home/oracle/NetBeansProjects/PwFile/test/pwfile/EncryptorTest.java</file>
+            <file>file:/home/oracle/NetBeansProjects/PwFile/src/pwfile/Args.java</file>
+            <file>file:/home/oracle/NetBeansProjects/PwFile/test/pwfile/PwFileTest.java</file>
         </group>
     </open-files>
 </project-private>

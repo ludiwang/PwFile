@@ -44,7 +44,7 @@ public class PwFileTest {
 //    @Test
 //    public void testMain() throws Exception {
 //        System.out.println("main");
-//        String[] args = "-conf /tmp/test1 -create_keystore".split(" ");
+//        String[] args = "-conf /tmp/test1 -create_conffile /tmp/testkeystore1,ludi".split(" ");
 //        PwFile.main(args);
 //        // TODO review the generated test code and remove the default call to fail.
 //        //fail("The test case is a prototype.");
@@ -158,8 +158,8 @@ public class PwFileTest {
 //    @Test
 //    public void TestDeleteKey() {
 //
-//        String confFilePath = "/tmp/test1";
-//        String keyName = "ludi3";
+//        String confFilePath = "/tmp/testconffile";
+//        String keyName = "ludi1";
 //
 //        PwFile.deleteKey(keyName, confFilePath);
 //        //assertEquals(expResult, result);
@@ -190,13 +190,12 @@ public class PwFileTest {
     
 //           @Test
 //    public void TestExportAllKeys() {
-//
 //        String confFilePath = "/tmp/test1";
 //        String exportFilePath = "/tmp/testExport";
 //        String newPW = "wang";
-//
-//        PwFile.exportAllKeys(confFilePath, exportFilePath);
-//        //assertEquals(expResult, result);
+//        Boolean expResult = true;
+//        Boolean result = PwFile.exportAllKeys(confFilePath, exportFilePath);
+//        assertEquals(expResult, result);
 //
 //    }
     
@@ -225,14 +224,14 @@ public class PwFileTest {
 //
 //    }  
     
-       @Test
-    public void testCreateConfFile() {
-        System.out.println("create conffile");
-        String confFilePath = "/tmp/test2"; 
-        String keyStorePath = "/tmp/store2";
-        String keyStorePass = "wang";
-        boolean expResult = true;
-        boolean result = PwFile.createConfFile(confFilePath, keyStorePath, keyStorePass);
-        assertEquals(expResult, result);
-    }
+//       @Test
+//    public void testCreateConfFile() {
+//        System.out.println("create conffile");
+//        String confFilePath = "/tmp/test1"; 
+//        String keyStorePath = "/tmp/store1";
+//        String keyStorePass = "wang";
+//        boolean expResult = true;
+//        boolean result = PwFile.createConfFile(confFilePath, keyStorePath, keyStorePass);
+//        assertEquals(expResult, result);
+//    }
 }
