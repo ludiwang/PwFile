@@ -1,14 +1,19 @@
 /*
  * All Rights reserved
  * Copyright(c) 2016 L.Wang Consultancy  All Rights Reserved.
- * This software is the proprietary information of L.Wang
-Consultancy.
+ * This software is the proprietary information of L.Wang Consultancy.
+ * The keystore creation is based on following blog:
+ * http://kingsfleet.blogspot.nl/2008/12/storing-password-somewhere-safe.html
  */
 package pwfile;
 
 /**
+ * This program provides functions to create a java keystore for saving user
+ * name/password pairs.
+ * 
  *
  * @author WangL
+ * 
  */
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,9 +43,19 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+/**
+ *
+ * @author WangL
+ * @version 1.0
+ * @since 01-June-2016
+ * 
+ */
 public class PwFile {
 
     /**
+     * This is the main program, it accepts command line arguments and parse
+     * them with Args class, then call the appropriate function based on the
+     * input argument.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -55,10 +70,16 @@ public class PwFile {
 
         switch (vArg.argName) {
             case "create_conffile": {
-
+                try {
                 String keystorePath = vArg.argValue.split(",")[0];
                 String keystorePass = vArg.argValue.split(",")[1];
                 createConfFile(vArg.conf, keystorePath, keystorePass);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.err.println("keystorePath or password not given.");
+                    vArg.help();
+                    System.exit(1);
+                }
+                
 
             }
             break;
@@ -107,6 +128,15 @@ public class PwFile {
 
     }
 
+    /**
+     * This function create the configuration file, it contains the path
+     * and password of the keystore.
+     *
+     * @param confFilePath
+     * @param keyStorePath
+     * @param keyStorePass
+     * @return boolean Shows if the action is succeeded.
+     */
     public static boolean createConfFile(String confFilePath, String keyStorePath, String keyStorePass) {
 
         Path path = Paths.get(confFilePath);
@@ -129,6 +159,14 @@ public class PwFile {
         return true;
     }
 
+    /**
+     * This function read the config file and return the keystore path and
+     * keystore password in a String array.
+     *
+     * @param filePath
+     * @return
+     * @throws FileNotFoundException
+     */
     public static String[] getConfig(String filePath) throws FileNotFoundException {
 
         String[] result = new String[2];
@@ -161,6 +199,12 @@ public class PwFile {
 
     }
 
+    /**
+     * This function creates a keystore.
+     *
+     * @param confFilePath
+     * @throws FileNotFoundException
+     */
     public static void createKeyStore(String confFilePath) throws FileNotFoundException {
         //String[] config = getConfig(confFilePath);
         String keyStorePath = getStorePath(confFilePath);
@@ -200,6 +244,12 @@ public class PwFile {
 
     }
 
+    /**
+     * This function calls getConfig function and returns keystore path.
+     *
+     * @param confFilePath
+     * @return
+     */
     public static String getStorePath(String confFilePath) {
 
         String[] config = null;
@@ -213,12 +263,17 @@ public class PwFile {
 
     }
 
+    /**
+     * This function accepts conf file path,then check if the password in 
+     * conf file is encrypted. If no, then encrypted it, save the encrypted 
+     * password in the conf ile, return the not encrypted password,
+     * if already encrypted, then decrypt it and return  it. 
+     *
+     * @param confFilePath
+     * @return String keystore password value
+     */
     public static String getStorePW(String confFilePath) {
-        //this function accept conffile location 
-        //then check if the password in conffile is encrypted
-        // if no, then encrypted it, save the encrepted password in the conffile, return the not encrypted password
-        // if already encrypted, then decrept it and return  it 
-
+ 
         String key = "Bar12345Bar12345"; // 128 bit key
         String initVector = "RandomInitVector"; // 16 bytes IV
 
@@ -289,6 +344,12 @@ public class PwFile {
         return returnPw;
     }
 
+    /** 
+     * This function load the keystore to make furthre keystore action possible.
+     *
+     * @param confFilePath
+     * @return
+     */
     public static KeyStore loadKeyStore(String confFilePath) {
         KeyStore ks = null;
         KeyStore.SecretKeyEntry ske = null;
@@ -316,6 +377,13 @@ public class PwFile {
         return ks;
     }
 
+    /**
+     * This function read the keystore and returns the full list of key/password 
+     * pairs in an ArrayList.
+     *
+     * @param confFilePath
+     * @return
+     */
     public static ArrayList<String> getFullList(String confFilePath) {
         //This function load the keystore entries into an arraylist
         //is also the check if keystore/keystorepass combination is correct.
@@ -389,13 +457,37 @@ public class PwFile {
 
     }
 
+    /**
+     * This function adds a new key/password.
+     *
+     * @param keyName
+     * @param keyValue
+     * @param confFilePath
+     */
     public static void addNewKey(String keyName, String keyValue, String confFilePath) {
         setKey(keyName, keyValue, confFilePath, "add");
     }
 
+    /**
+     * This function calls setKey function to changes the password 
+     * of a given key.
+     *
+     * @param keyName
+     * @param keyValue
+     * @param confFilePath
+     */
     public static void updateKey(String keyName, String keyValue, String confFilePath) {
         setKey(keyName, keyValue, confFilePath, "update");
     }
+    
+    /**
+     * This function is used to add and update the password of a given key.
+     * 
+     * @param keyName
+     * @param keyValue
+     * @param confFilePath
+     * @param action 
+     */
 
     private static void setKey(String keyName, String keyValue, String confFilePath, String action) {
 
@@ -456,6 +548,13 @@ public class PwFile {
 
     }
 
+    /** 
+     * This function returns the password of a given key.
+     *
+     * @param keyName
+     * @param confFilePath
+     * @return
+     */
     public static String getKeyPW(String keyName, String confFilePath) {
         ArrayList<String> keyPairList = getFullList(confFilePath);
         String vPW = null;
@@ -473,6 +572,12 @@ public class PwFile {
         return vPW;
     }
 
+    /**
+     * This function deletes a key/password entry based on given keyname.
+     *
+     * @param keyName
+     * @param confFilePath
+     */
     public static void deleteKey(String keyName, String confFilePath) {
 
 //        if (!keyExist(keyName, confFilePath)) {
@@ -519,8 +624,21 @@ public class PwFile {
 
     }
 
-    public static void exportAllKeys(String confFilePath, String exportFilePath) {
+    /**
+     * This function export the whole list of key/password entries to a file.
+     *
+     * @param confFilePath
+     * @param exportFilePath
+     * @return
+     */
+    public static boolean exportAllKeys(String confFilePath, String exportFilePath) {
 
+        Path path = Paths.get(exportFilePath);
+        if (Files.exists(path)) {
+            System.err.println("File " + exportFilePath + " already exist.");
+            return false;
+        }
+        
         File exportFile = new File(exportFilePath);
         ArrayList<String> fullList = getFullList(confFilePath);
         try {
@@ -538,10 +656,18 @@ public class PwFile {
 
         } catch (IOException ex) {
             ex.printStackTrace();
+            return false;
         }
-
+         return true;
     }
 
+    /**
+     * This function imports the key/password entries from a file into an 
+     * existing keystore.
+     *
+     * @param confFilePath
+     * @param importFilePath
+     */
     public static void importKeys(String confFilePath, String importFilePath) {
 
         File file = new File(importFilePath);
@@ -586,6 +712,13 @@ public class PwFile {
 //        
 //        updateConfFilePWString(confFilePath,newPW);
 //    }
+
+    /**
+     * This function updates the keystore password in the conf file.
+     *
+     * @param confFilePath
+     * @param newPWString
+     */
     public static void updateConfFilePWString(String confFilePath, String newPWString) {
         File confFile = new File(confFilePath);
         try {

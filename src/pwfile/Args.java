@@ -17,8 +17,12 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 /**
+ * Args class processes command line arguments and provides usage text.
+ * 
  *
  * @author WangL
+ * @version 1.0
+ * @since 01-June-2016
  */
 public class Args {
 
@@ -75,6 +79,9 @@ public class Args {
 
     }
 
+    /**
+     * This method parses the command line arguments.
+     */
     public void parse() {
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = null;
@@ -110,6 +117,7 @@ public class Args {
             if (cmd.hasOption("delete_key")) {
                 //System.out.println("create keystore");
                 this.argName = "delete_key";
+                this.argValue = cmd.getOptionValue("delete_key");
             }
 
             if (cmd.hasOption("import_keys")) {
@@ -137,8 +145,10 @@ public class Args {
         }
 
     }
-
-    private void help() {
+/**
+ * This method provides usage text.
+ */
+    protected void help() {
 
         // This prints out some help
         HelpFormatter formatter = new HelpFormatter();
@@ -149,10 +159,10 @@ public class Args {
         String padding3 ="         ";
         System.out.println("Usage: ");
         //System.out.println(padding + "Required with all commands:");
-        System.out.println(padding1 + "--confFile </tmp/conffile.conf> (always required)"); 
+        System.out.println(padding1 + "--conffile </tmp/conffile.conf> (always required)"); 
         
         System.err.println("");
-        System.out.println(padding2 + "--create_conffile </tmp/keystoreconffile,mykeystorepassword>");
+        System.out.println(padding2 + "--create_conffile </tmp/keystorepath,mykeystorepassword>");
         System.out.println(padding3 + "create a configuration file.");
         
         System.err.println("");

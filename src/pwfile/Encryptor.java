@@ -1,19 +1,16 @@
 
 
 /**
- *
+ * This program has it's origin on the internet, with no confirmd author.
  *  
  */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pwfile;
 
 /**
  *
- * @author WangL
+ * @author Unknown
+ * 
  */
  
 import javax.crypto.Cipher;
@@ -24,7 +21,20 @@ import javax.crypto.spec.SecretKeySpec;
 
 import  org.apache.commons.codec.binary.Base64;
 
+/**
+ *
+ * @author unknown
+ */
 public class Encryptor {
+
+    /**
+     * This function encrypts a string with given entrypt key and initVector.
+     * 
+     * @param key   The encryption key.
+     * @param initVector The initVector used for encryption.
+     * @param value   The String that need to be encrypted.
+     * @return String The encrprted String.
+     */
     public static String encrypt(String key, String initVector, String value) {
         try {
             IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
@@ -44,6 +54,14 @@ public class Encryptor {
         return null;
     }
 
+    /**
+     * This function decrypts an encrypted String with given key and initVector.
+     *
+     * @param key  The encryption key.
+     * @param initVector The initVector used in decryption.
+     * @param encrypted  The encrypted String that need to be decrypted.
+     * @return String The decrypted String.
+     */
     public static String decrypt(String key, String initVector, String encrypted) {
         try {
             IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
