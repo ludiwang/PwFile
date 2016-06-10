@@ -121,7 +121,9 @@ public class PwFile {
             case "get_pw": {
 
                 String pw = getKeyPW(vArg.argValue, vArg.conf);
-                System.out.println(pw);
+                if ( pw != null) {
+                    System.out.println(pw);
+                }
             }
             break;
         }
@@ -567,7 +569,7 @@ public class PwFile {
         }
 
         if (vPW == null) {
-            System.err.println("Key " + keyName + "not found.");
+            System.err.println("Key " + keyName + " not found.");
         }
         return vPW;
     }
