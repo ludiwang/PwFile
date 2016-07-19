@@ -30,4 +30,56 @@ This program is used to create keystores to keep passwords.
        --get_pw <name>
          Get the password of a key.
 
+# Example
+        -- First, create a conf file, provide conf file location, keystore location, keystore password. The conf file is created, the keystore not yet.
+        java -jar "/home/oracle/NetBeansProjects/PwFile/dist/PwFile.jar" -conffile /tmp/test.conf -create_conffile /tmp/testkeystore.jks,testpw
+        
+        [oracle@soa-training ~]$ cat /tmp/test.conf
+        keyStorePath=/tmp/testkeystore.jks
+        keyStorePass=rxfHugROdTuJNXfXnofPtg==
+        
+        [oracle@soa-training ~]$ ls /tmp/testkeystore.jks
+        ls: cannot access /tmp/testkeystore.jks: No such file or directory
+        
+        -- Create a keystore
+        java -jar "/home/oracle/NetBeansProjects/PwFile/dist/PwFile.jar" --create_keystore -conffile /tmp/test.conf
+
+        [oracle@soa-training ~]$ ls /tmp/testkeystore.jks
+        /tmp/testkeystore.jks
+        
+        --add two username/password pairs
+        [oracle@soa-training ~]$ java -jar "/home/oracle/NetBeansProjects/PwFile/dist/PwFile.jar"  -conffile /tmp/test.conf --add_key user1=pw1
+        add key user1 done.
+        [oracle@soa-training ~]$ java -jar "/home/oracle/NetBeansProjects/PwFile/dist/PwFile.jar"  -conffile /tmp/test.conf --add_key user2=pw2
+        add key user2 done.
+        
+        --read user1 password, change user1 password, then read user1 password again
+        [oracle@soa-training ~]$ java -jar "/home/oracle/NetBeansProjects/PwFile/dist/PwFile.jar"  -conffile /tmp/test.conf --get_pw user1
+        pw1
+        [oracle@soa-training ~]$ java -jar "/home/oracle/NetBeansProjects/PwFile/dist/PwFile.jar"  -conffile /tmp/test.conf --update_key user1=pw3
+        update key user1 done.
+        [oracle@soa-training ~]$ java -jar "/home/oracle/NetBeansProjects/PwFile/dist/PwFile.jar"  -conffile /tmp/test.conf --get_pw user1
+        pw3
+        
+        --delete user1 , then check again
+        [oracle@soa-training ~]$ java -jar "/home/oracle/NetBeansProjects/PwFile/dist/PwFile.jar"  -conffile /tmp/test.conf --delete_key user1
+        Key user1 deleted.
+        [oracle@soa-training ~]$ java -jar "/home/oracle/NetBeansProjects/PwFile/dist/PwFile.jar"  -conffile /tmp/test.conf --get_pw user1
+        Key user1not found.
+        null
+        [oracle@soa-training ~]$ java -jar "/home/oracle/NetBeansProjects/PwFile/dist/PwFile.jar"  -conffile /tmp/test.conf --get_pw user1
+        Key user1 not found.
+        
+        --export keys
+        [oracle@soa-training ~]$ java -jar "/home/oracle/NetBeansProjects/PwFile/dist/PwFile.jar"  -conffile /tmp/test.conf --export_keys /tmp/export1
+        [oracle@soa-training ~]$ cat /tmp/export1
+        user2=pw2
+
+
+
+        
+        
+
+
+        
 
