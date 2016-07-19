@@ -5,8 +5,8 @@ This program is used to create keystores to keep passwords.
 #Prerequisite
 At the location of the jar file, make a directory called lib, then put following apache commons library files in there, these files can be found in source dir in dist directory as well.
 
-commons-cli-1.3.1.jar 
-commons-codec-1.10.jar
+    commons-cli-1.3.1.jar 
+    commons-codec-1.10.jar
 
 # Usage
 
